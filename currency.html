@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Currency Converter</title>
+  <style>
+    /* Background & Body */
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #6a0dad, #9b59b6);
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #222;
+    }
+
+    /* Converter Box */
+    .container {
+      background-color: white;
+      width: 380px;
+      padding: 35px 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    /* Heading */
+    h2 {
+      text-align: center;
+      color: #6a0dad;
+      font-size: 24px;
+      margin-bottom: 25px;
+    }
+
+    /* Labels */
+    label {
+      font-weight: 600;
+      margin-top: 10px;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    /* Dropdown with flag */
+    .dropdown {
+      display: flex;
+      align-items: center;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 5px 12px;
+      background-color: #f8f8f8;
+      margin-bottom: 15px;
+      transition: 0.3s;
+    }
+
+    .dropdown:hover {
+      border-color: #6a0dad;
+      box-shadow: 0 0 6px #b084d7;
+    }
+
+    .dropdown img {
+      width: 28px;
+      height: 18px;
+      margin-right: 10px;
+      border-radius: 3px;
+    }
+
+    select {
+      width: 100%;
+      border: none;
+      outline: none;
+      font-size: 15px;
+      background: transparent;
+      font-weight: 500;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 15px;
+      margin-bottom: 20px;
+      transition: 0.3s;
+    }
+
+    input:focus {
+      border-color: #6a0dad;
+      box-shadow: 0 0 6px #b084d7;
+    }
+
+    /* Button */
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background-color: #6a0dad;
+      color: white;
+      font-size: 17px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-weight: 600;
+    }
+
+    button:hover {
+      background-color: #5c0bb8;
+      box-shadow: 0 0 12px #a972d6;
+    }
+
+    /* Result */
+    .result {
+      text-align: center;
+      margin-top: 25px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #222;
+    }
+
+    /* Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2> Currency Converter</h2>
+
+    <form>
+      <label>From (Country):</label>
+      <div class="dropdown">
+        <img id="flagFrom" src="https://flagcdn.com/w20/pk.png" alt="Flag">
+        <select id="from" onchange="updateFlag('from')">
+          <option value="PKR" data-flag="https://flagcdn.com/w20/pk.png">Pakistan - PKR</option>
+          <option value="USD" data-flag="https://flagcdn.com/w20/us.png">United States - USD</option>
+          <option value="EUR" data-flag="https://flagcdn.com/w20/eu.png">Europe - EUR</option>
+          <option value="INR" data-flag="https://flagcdn.com/w20/in.png">India - INR</option>
+          <option value="GBP" data-flag="https://flagcdn.com/w20/gb.png">United Kingdom - GBP</option>
+        </select>
+      </div>
+
+      <label>To (Country):</label>
+      <div class="dropdown">
+        <img id="flagTo" src="https://flagcdn.com/w20/us.png" alt="Flag">
+        <select id="to" onchange="updateFlag('to')">
+          <option value="USD" data-flag="https://flagcdn.com/w20/us.png">United States - USD</option>
+          <option value="PKR" data-flag="https://flagcdn.com/w20/pk.png">Pakistan - PKR</option>
+          <option value="EUR" data-flag="https://flagcdn.com/w20/eu.png">Europe - EUR</option>
+          <option value="INR" data-flag="https://flagcdn.com/w20/in.png">India - INR</option>
+          <option value="GBP" data-flag="https://flagcdn.com/w20/gb.png">United Kingdom - GBP</option>
+        </select>
+      </div>
+
+      <label>Amount:</label>
+      <input type="number" id="amount" placeholder="Enter amount">
+
+      <button type="button" onclick="convertCurrency()">Get Exchange</button>
+    </form>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    // Static conversion rates
+    const rates = {
+      PKR: { USD: 0.0036, EUR: 0.0033, INR: 0.30, GBP: 0.0028, PKR: 1 },
+      USD: { PKR: 280, EUR: 0.91, INR: 83, GBP: 0.78, USD: 1 },
+      EUR: { PKR: 307, USD: 1.10, INR: 91, GBP: 0.85, EUR: 1 },
+      INR: { PKR: 3.4, USD: 0.012, EUR: 0.011, GBP: 0.0093, INR: 1 },
+      GBP: { PKR: 355, USD: 1.28, EUR: 1.17, INR: 107, GBP: 1 }
+    };
+
+    // Update flag on change
+    function updateFlag(type) {
+      const select = document.getElementById(type);
+      const selectedOption = select.options[select.selectedIndex];
+      const flagUrl = selectedOption.getAttribute("data-flag");
+      document.getElementById(type === "from" ? "flagFrom" : "flagTo").src = flagUrl;
+    }
+
+    // Convert currency
+    function convertCurrency() {
+      const from = document.getElementById("from").value;
+      const to = document.getElementById("to").value;
+      const amount = parseFloat(document.getElementById("amount").value);
+      const resultDiv = document.getElementById("result");
+
+      if (isNaN(amount) || amount <= 0) {
+        resultDiv.innerHTML = "⚠️ Please enter a valid amount!";
+        resultDiv.style.color = "red";
+        return;
+      }
+
+      const rate = rates[from][to];
+      const converted = (amount * rate).toFixed(2);
+
+      resultDiv.style.color = "#222";
+      resultDiv.innerHTML = `${amount} ${from} = <b style="color:#6a0dad">${converted} ${to}</b>`;
+    }
+  </script>
+</body>
+</html>

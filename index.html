@@ -3,213 +3,111 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hijab Batool | Data Analyst Portfolio</title>
+    <title>Netflix Clone</title>
     <style>
-      /* Basic Reset */
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
       body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background: #f0f2f5;
-        color: #333;
-        line-height: 1.6;
+        margin: 0;
+        font-family: "Arial", sans-serif;
+        background-color: #111;
+        color: #fff;
       }
 
-      /* Header */
       header {
-        background: #4caf50;
-        color: white;
+        background-color: #e50914;
+        padding: 20px;
         text-align: center;
-        padding: 25px 20px;
+        font-size: 24px;
       }
 
-      header h1 {
-        font-size: 2em;
-        margin-bottom: 5px;
+      .movie-section {
+        padding: 20px;
       }
 
-      header p {
-        font-size: 1em;
-        opacity: 0.9;
-      }
-
-      /* Sections */
-      section {
-        max-width: 900px;
-        margin: 50px auto;
-        padding: 0 20px;
-      }
-
-      h2 {
-        color: #333;
-        margin-bottom: 30px;
-        text-align: center;
-        font-size: 2em;
-      }
-
-      /* Project & Experience Cards */
-      .card {
-        background: white;
-        padding: 25px;
-        margin-bottom: 25px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s, box-shadow 0.3s;
-      }
-
-      .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-      }
-
-      .card h3 {
-        color: #4caf50;
-        margin-bottom: 10px;
-      }
-
-      .card p {
+      .movie-section h2 {
         margin-bottom: 15px;
       }
 
-      .card a {
-        display: inline-block;
-        padding: 8px 15px;
-        background: #4caf50;
-        color: white;
-        text-decoration: none;
-        border-radius: 5px;
-        transition: background 0.3s;
+      .movie-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 20px;
       }
 
-      .card a:hover {
-        background: #45a049;
-      }
-
-      /* Experience Images */
-      .experience-img {
-        max-width: 100px;
-        margin-right: 15px;
-        border-radius: 5px;
-        vertical-align: middle;
-      }
-
-      /* Contact Section */
-      section#contact p {
-        margin-bottom: 10px;
-      }
-
-      section#contact a {
-        text-decoration: none;
-      }
-
-      section#contact a:hover {
-        text-decoration: underline;
-      }
-
-      /* Footer */
-      footer {
-        background: #333;
-        color: white;
+      .movie-card {
+        background-color: #222;
+        border-radius: 8px;
+        overflow: hidden;
         text-align: center;
-        padding: 20px 0;
-        font-size: 14px;
-        margin-top: 50px;
+        transition: transform 0.3s ease;
       }
 
-      /* Responsive */
-      @media (max-width: 600px) {
-        header h1 {
-          font-size: 1.8em;
-        }
-        header p {
-          font-size: 0.9em;
-        }
-        .card {
-          padding: 20px;
-        }
-        .experience-img {
-          max-width: 80px;
-          margin-bottom: 10px;
-        }
+      .movie-card:hover {
+        transform: scale(1.05);
+      }
+
+      .movie-card img {
+        width: 100%;
+        height: 240px;
+        object-fit: cover;
+      }
+
+      .movie-card p {
+        margin: 10px 0;
+        font-size: 16px;
+      }
+
+      footer {
+        background-color: #000;
+        text-align: center;
+        padding: 15px;
+        font-size: 14px;
+        color: #999;
       }
     </style>
   </head>
   <body>
     <header>
-      <h1>Hijab Batool</h1>
-      <p>Python Data Analyst | BSIT Student</p>
+      <h1>Netflix Clone</h1>
     </header>
 
-    <section id="about">
-      <h2>About Me</h2>
-      <p>
-        Hello! I am Hijab Batool, skilled in Python for Data Analysis. I work on
-        projects using Pandas, Matplotlib, and NumPy to generate insights and
-        visualizations from datasets. I enjoy turning data into actionable
-        insights and showcasing my skills through practical projects.
-      </p>
-    </section>
-
-    <section id="experience">
-      <h2>Experience & Training</h2>
-      <div class="card">
-        <h3>Python & AI Course</h3>
-        <p>
-          3-month training in <strong>Python & AI</strong>, covering Python
-          programming, data analysis, NumPy, Pandas, Matplotlib, and basic AI
-          concepts.
-        </p>
-        <img src="python &AI.jpg" alt="Course Image" class="experience-img" />
-      </div>
-
-      <div class="card">
-        <h3>Python Data Analyst Intern</h3>
-        <p>
-          1-month internship at <strong>Globitech System</strong> where I worked
-          on real-world datasets, performing analysis, creating visualizations,
-          and generating actionable insights using Python.
-        </p>
-        <img src="PdfImage.png" alt="Internship Image" class="experience-img" />
+    <section class="movie-section">
+      <h2>Popular Movies</h2>
+      <div class="movie-grid" id="movieGrid">
       </div>
     </section>
 
-    <section id="projects">
-      <h2>Projects</h2>
-
-      <div class="card">
-        <h3>Student Mental Health Analysis</h3>
-        <p>
-          Python project analyzing students' mental health survey data using
-          Pandas and Matplotlib. Includes summary statistics and visualizations
-          for Depression, Anxiety, and Panic Attack data.
-        </p>
-        <a
-          href="https://github.com/ItsHijab/hijabbatool.github.io"
-          target="_blank"
-          >View on GitHub</a
-        >
-      </div>
-    </section>
-
-    <section id="contact">
-      <h2>Contact</h2>
-      <p>Email: hijabbatool252@gmail.com</p>
-      <p>
-        LinkedIn:LinkedIn:
-        <a
-          href="https://www.linkedin.com/in/hijab-batool-bb22bb30b"
-          target="_blank"
-          >Hijab Batool</a
-        >
-      </p>
-    </section>
     <footer>
-      &copy; 2025 Hijab Batool | Python Data Analyst Portfolio | All Rights
-      Reserved
+      <p>Designed by Hijab</p>
     </footer>
+
+    <script>
+      const movies = [
+        {
+          title: "Funny Clip",
+          poster: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
+        },
+        {
+          title: "Tech Review",
+          poster: "https://img.youtube.com/vi/LXb3EKWsInQ/maxresdefault.jpg",
+        },
+        {
+          title: "Motivation",
+          poster: "https://img.youtube.com/vi/ZXsQAXx_ao0/maxresdefault.jpg",
+        },
+        {
+          title: "Entertainment ",
+          poster: "https://img.youtube.com/vi/v7K4vGYL9zI/maxresdefault.jpg",
+        },
+      ];
+
+      const container = document.getElementById("movieGrid");
+
+      movies.forEach((movie) => {
+        const div = document.createElement("div");
+        div.classList.add("movie-card");
+        div.innerHTML = `<img src="${movie.poster}" alt="${movie.title}"><p>${movie.title}</p>`;
+        container.appendChild(div);
+      });
+    </script>
   </body>
 </html>
